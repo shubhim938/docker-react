@@ -3,7 +3,6 @@ os: linux
 language: node_js
 node_js:
   - lts/*
-sudo: required
 services:
   - docker
 
@@ -12,3 +11,15 @@ before_install:
 
 script:
   - docker run -e CI=true stephengrider/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-north-1"
+  app: "frontend"
+  env: "Frontend-dev"
+  bucket_name: "elasticbeanstalk-eu-north-1-146578669912"
+  bucket_path: "frontend"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_ACCESS_VALUE"
